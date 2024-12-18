@@ -43,3 +43,7 @@ void configure_gpio(void);
 
 uint8_t gpio_button_is_pressed(void);
 void gpio_toggle_led(void);
+uint8_t gpio_button1_is_pressed(void);
+void gpio_toggle_led1(void);
+uint8_t gpio_button2_is_pressed(void);
+void gpio_toggle_led2(void);
