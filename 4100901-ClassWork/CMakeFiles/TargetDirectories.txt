@@ -1,0 +1,3 @@
+C:/Users/Julian Gutierrez/Desktop/UNAL/4100901-ClassWork-2024-II/4100901-ClassWork/CMakeFiles/4100901-ClassWork.dir
+C:/Users/Julian Gutierrez/Desktop/UNAL/4100901-ClassWork-2024-II/4100901-ClassWork/CMakeFiles/edit_cache.dir
+C:/Users/Julian Gutierrez/Desktop/UNAL/4100901-ClassWork-2024-II/4100901-ClassWork/CMakeFiles/rebuild_cache.dir
