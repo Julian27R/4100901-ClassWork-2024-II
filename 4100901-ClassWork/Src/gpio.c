@@ -34,11 +34,11 @@
 
 #define BUTTON1_IS_PRESSED()    (!(GPIOC->IDR & (1 << BUTTON1_PIN)))
 #define BUTTON1_IS_RELEASED()   (GPIOC->IDR & (1 << BUTTON1_PIN))
-#define TOGGLE_LED1() 
+#define TOGGLE_LED1()           (GPIOC->IDR & (1 << BUTTON1_PIN))
 
 #define BUTTON2_IS_PRESSED()    (!(GPIOC->IDR & (1 << BUTTON2_PIN)))
 #define BUTTON2_IS_RELEASED()   (GPIOC->IDR & (1 << BUTTON2_PIN))
-#define TOGGLE_LED2() 
+#define TOGGLE_LED2()           (GPIOC->IDR & (1 << BUTTON2_PIN))
 volatile uint8_t button_pressed = 0; // Flag to indicate button press
 
 void configure_gpio_for_usart() {
@@ -155,6 +155,20 @@ void gpio_toggle_led(void)
     TOGGLE_LED();
 }
 
+uint32_t b1_tick = 0;
+void detect_button_press(void)
+{
+    if (systick_GetTick() - b1_tick < 50) {
+        return; // Ignore bounces of less than 50 ms
+    } else if (systick_GetTick() - b1_tick > 500) {
+        button_pressed = 1; // single press
+    } else {
+        button_pressed = 2; // double press
+    }
+
+    b1_tick = systick_GetTick();
+}
+
 //Función que almacena el valor de TOGGLE_LED1 que es 1 cuando el led esta encendido y 0 si está apagado
 void gpio_toggle_led1(void)
 {
@@ -171,7 +185,7 @@ void EXTI15_10_IRQHandler(void)
 {
     if (EXTI->PR1 & (1 << BUTTON_PIN)) {
         EXTI->PR1 = (1 << BUTTON_PIN); // Clear pending bit
-        button_pressed = 1; // Set button pressed flag
+        detect_button_press(); // Set button pressed flag
     }
 }
 
